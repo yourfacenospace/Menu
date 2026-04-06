@@ -1,0 +1,122 @@
+from tkinter import *
+
+def animate_button_hover(btn, enter=True):
+    if enter:
+        btn.configure(fg="#FF8C00")
+    else:
+        btn.configure(fg="#C0C0C0")
+
+def play():
+    print("Play clicked")
+
+def settings():
+    print("Settings clicked")
+
+def credits():
+    credits_win = Toplevel(Ui)
+    credits_win.title("Credits")
+    credits_win.attributes("-fullscreen", True)
+    credits_win.configure(bg="#0d0f12")
+    credits_win.grab_set()
+
+    credits_bg = Label(credits_win, image=image)
+    credits_bg.place(x=0, y=0, relwidth=1, relheight=1)
+
+    panel = Frame(credits_win, bg="#0d0f12", bd=0)
+    panel.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.45, relheight=0.80)
+
+    Label(panel, text="── CREDITS ──",
+          font=("PixelWarden.ttf", 32, "bold"),
+          bg="#0d0f12", fg="#FF8C00").pack(pady=(30, 5))
+
+    Label(panel, text="G.A.L.E — Development Team",
+          font=("PixelWarden.ttf", 12, "italic"),
+          bg="#0d0f12", fg="#666666").pack(pady=(0, 25))
+
+    Frame(panel, bg="#FF8C00", height=1).pack(fill=X, padx=40, pady=(0, 20))
+
+    Label(panel, text="GAME DEVELOPERS",
+          font=("PixelWarden.ttf", 13, "bold"),
+          bg="#0d0f12", fg="#FF8C00").pack(pady=(5, 8))
+
+    for name in ["Abuyuan, Ferdinand Angelo",
+                 "Cabrera, Kyle Louise",
+                 "Flores, Eden Michael",
+                 "Ongga, Kent Gabriel"]:
+        Label(panel, text=name,
+              font=("PixelWarden.ttf", 12),
+              bg="#0d0f12", fg="#cccccc").pack(pady=2)
+
+    Frame(panel, bg="#333333", height=1).pack(fill=X, padx=40, pady=(20, 15))
+
+    Label(panel, text="ART & DESIGN",
+          font=("PixelWarden.ttf", 13, "bold"),
+          bg="#0d0f12", fg="#FF8C00").pack(pady=(5, 8))
+
+    Label(panel, text="Cabrera, Kyle Louise \nAbuyuan, Ferdinand Angelo",
+          font=("PixelWarden.ttf", 12),
+          bg="#0d0f12", fg="#cccccc").pack(pady=2)
+
+    Frame(panel, bg="#333333", height=1).pack(fill=X, padx=40, pady=(20, 15))
+
+    Label(panel, text="MUSIC & SOUND",
+          font=("PixelWarden.ttf", 13, "bold"),
+          bg="#0d0f12", fg="#FF8C00").pack(pady=(5, 8))
+
+    Label(panel, text="Cabrera, Kyle Louise \nAbuyuan, Ferdinand Angelo",
+          font=("PixelWarden.ttf", 12),
+          bg="#0d0f12", fg="#cccccc").pack(pady=2)
+
+    Frame(panel, bg="#333333", height=1).pack(fill=X, padx=40, pady=(20, 20))
+
+    back_btn = Button(panel, text="[ BACK ]",
+                      font=("PixelWarden.ttf", 14, "bold"),
+                      bg="#0d0f12", fg="#C0C0C0",
+                      activebackground="#0d0f12",
+                      activeforeground="#FF8C00",
+                      bd=0, cursor="hand2",
+                      command=credits_win.destroy)
+    back_btn.pack(pady=(5, 20))
+    back_btn.bind("<Enter>", lambda e: animate_button_hover(back_btn, True))
+    back_btn.bind("<Leave>", lambda e: animate_button_hover(back_btn, False))
+
+def quit_game():
+    Ui.destroy()
+
+# --- Main Window ---
+Ui = Tk()
+Ui.title("G.A.L.E")
+Ui.attributes("-fullscreen", True)
+Ui.bind("<Escape>", lambda e: Ui.attributes("-fullscreen", False))
+
+image = PhotoImage(file=r"C:\\Users\\MTCL4-35\\Downloads\\GALE\\BackgroundMenu.png")
+
+bg_label = Label(Ui, image=image)
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+Label(bg_label, text="G.A.L.E",
+      font=("PixelWarden", 100, "bold"),
+      fg="#FF8C00", bg="black").place(relx=0.5, rely=0.25, anchor="center")
+
+# Menu buttons — Options removed
+btn_texts = ["Play", "Settings", "Credits", "Quit"]
+btn_cmds  = [play, settings, credits, quit_game]
+
+for i, (text, cmd) in enumerate(zip(btn_texts, btn_cmds)):
+    btn = Button(bg_label,
+                 text=text.upper(),
+                 command=cmd,
+                 font=("PixelWarden.ttf", 20, "bold"),
+                 fg="#C0C0C0",
+                 bg="black",
+                 activebackground="black",
+                 activeforeground="#FF8C00",
+                 bd=0,
+                 highlightthickness=0,
+                 cursor="hand2",
+                 width=12)
+    btn.place(relx=0.5, rely=0.38 + i * 0.08, anchor="center")
+    btn.bind("<Enter>", lambda e, b=btn: animate_button_hover(b, True))
+    btn.bind("<Leave>", lambda e, b=btn: animate_button_hover(b, False))
+
+Ui.mainloop()
